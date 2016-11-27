@@ -87,6 +87,10 @@ function Missile(world, angle, x, y, speed) {
     this.x += this.vx;
     this.y += this.vy;
     this.age++;
+    this.checkHit();
+  }
+
+  this.checkHit = function() {
     for (var i=0; i<this.world.rocks.length; i++) {
       if (distance(this, this.world.rocks[i]) < this.size + this.world.rocks[i].size) {
         var rock = this.world.rocks[i];
@@ -101,11 +105,15 @@ function Missile(world, angle, x, y, speed) {
             world.rocks.push(new Rock(world, size, angle, x, y, speed));
           }
         }
+        this.age = 1000;
       }
     }
   }
 
   this.draw = function(ctx) {
+    if (this.age > 100) {
+      return;
+    }
     ctx.save();
     ctx.translate(ctx.canvas.width/2-this.x, ctx.canvas.height/2-this.y);
     ctx.beginPath();
