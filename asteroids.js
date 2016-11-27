@@ -75,6 +75,7 @@ function Rock(world, size, angle, x, y, speed) {
 
 function Missle(world, angle, x, y, speed) {
   this.world = world;
+  this.size = 2;
   this.angle = angle;
   this.x = x;
   this.y = y;
@@ -93,7 +94,7 @@ function Missle(world, angle, x, y, speed) {
     ctx.translate(ctx.canvas.width/2-this.x, ctx.canvas.height/2-this.y);
     ctx.beginPath();
     ctx.strokeStyle = "blue";
-    ctx.ellipse(0, 0, 2, 2, 0, 0, 2*Math.PI, false);
+    ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
     ctx.stroke();
     ctx.restore();
   }
