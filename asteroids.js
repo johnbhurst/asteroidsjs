@@ -20,7 +20,7 @@ function Ship(world) {
   }
 
   this.fire = function() {
-    this.world.missles.push(new Missle(this.world, this.angle, this.x, this.y, 5));
+    this.world.missiles.push(new Missle(this.world, this.angle, this.x, this.y, 5));
   }
 
   this.draw = function(ctx) {
@@ -80,10 +80,12 @@ function Missle(world, angle, x, y, speed) {
   this.y = y;
   this.vx = speed * Math.cos(angle);
   this.vy = speed * Math.sin(angle);
+  this.age = 0;
 
   this.move = function() {
     this.x += this.vx;
     this.y += this.vy;
+    this.age++;
   }
 
   this.draw = function(ctx) {
@@ -108,9 +110,12 @@ function World() {
       this.rocks[i].move();
       this.fixpos(this.rocks[i]);
     }
-    for (var i=0; i<this.missles.length; i++) {
-      this.missles[i].move();
-      this.fixpos(this.missles[i]);
+    for (var i=0; i<this.missiles.length; i++) {
+      this.missiles[i].move();
+      this.fixpos(this.missiles[i]);
+      while (this.missiles.length > 0 && this.missiles[0].age >= 100) {
+        this.missiles.shift();
+      }
     }
   }
 
@@ -135,8 +140,8 @@ function World() {
     for (var i=0; i<this.rocks.length; i++) {
       this.rocks[i].draw(ctx);
     }
-    for (var i=0; i<this.missles.length; i++) {
-      this.missles[i].draw(ctx);
+    for (var i=0; i<this.missiles.length; i++) {
+      this.missiles[i].draw(ctx);
     }
   }
 }
@@ -191,7 +196,6 @@ function init() {
     var speed = 0.5+0.5*Math.random();
     world.rocks.push(new Rock(world, size, angle, x, y, speed));
   }
-  world.missles = [];
   draw();
 }
 
