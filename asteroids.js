@@ -97,8 +97,8 @@ function Missile(world, angle, x, y, speed) {
     for (var i=0; i<this.world.rocks.length; i++) {
       var rock = this.world.rocks[i];
       if (distance(this, rock) < this.size + rock.size) {
-        this.world.rocks.splice(i, i+1);
-        if (rock.size > 5) {
+        this.world.rocks.splice(i, 1);
+        if (rock.size > 10) {
           var newRocks = 3*Math.random()+2;
           for (var j=0; j<newRocks; j++) {
             var size = rock.size/2; //20+20*Math.random();
@@ -143,9 +143,9 @@ function World() {
     for (var i=0; i<this.missiles.length; i++) {
       this.missiles[i].move();
       this.fixpos(this.missiles[i]);
-      while (this.missiles.length > 0 && this.missiles[0].age >= 100) {
-        this.missiles.shift();
-      }
+    }
+    while (this.missiles.length > 0 && this.missiles[0].age >= 100) {
+      this.missiles.shift();
     }
   }
 
