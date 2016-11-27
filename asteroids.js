@@ -12,6 +12,7 @@ function Ship(world) {
   this.thrust = false;
   this.turningLeft = false;
   this.turningRight = false;
+  this.hit = false;
 
   this.move = function() {
     this.angle += this.turningLeft ? -Math.PI/30 : 0 ;
@@ -29,7 +30,7 @@ function Ship(world) {
     ctx.save();
     ctx.rotate(this.angle);
     ctx.beginPath();
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = this.hit ? "red" : "black";
     ctx.moveTo(10, -10);
     ctx.lineTo(-10, 0);
     ctx.lineTo(10, 10);
@@ -38,6 +39,10 @@ function Ship(world) {
     ctx.restore();
     ctx.restore();
   }
+}
+
+function distance(obj1, obj2) {
+  return Math.sqrt((obj1.x-obj2.x)*(obj1.x-obj2.x) + (obj1.y-obj2.y)*(obj1.y-obj2.y));
 }
 
 function Rock(world, size, angle, x, y, speed) {
@@ -52,6 +57,9 @@ function Rock(world, size, angle, x, y, speed) {
   this.move = function() {
     this.x += this.vx;
     this.y += this.vy;
+    if (distance(this, this.world.ship) < this.size) {
+      this.world.ship.hit = true;
+    }
   }
 
   this.draw = function(ctx) {
@@ -176,11 +184,11 @@ function init() {
   world = new World();
   world.ship = new Ship(world);
   for (var i=0; i<10; i++) {
-    var size = 10+10*Math.random();
+    var size = 20+20*Math.random();
     var angle = 2*Math.PI*Math.random();
     var x = 1000*Math.random()-500;
     var y = 800*Math.random()-400;
-    var speed = 3*Math.random();
+    var speed = 0.5+0.5*Math.random();
     world.rocks.push(new Rock(world, size, angle, x, y, speed));
   }
   world.missles = [];
