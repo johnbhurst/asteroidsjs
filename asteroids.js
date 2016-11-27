@@ -84,6 +84,9 @@ function Missile(world, angle, x, y, speed) {
   this.age = 0;
 
   this.move = function() {
+    if (this.age > 100) {
+      return;
+    }
     this.x += this.vx;
     this.y += this.vy;
     this.age++;
@@ -96,7 +99,8 @@ function Missile(world, angle, x, y, speed) {
       if (distance(this, rock) < this.size + rock.size) {
         this.world.rocks.splice(i, i+1);
         if (rock.size > 5) {
-          for (var j=0; j<3*Math.random()+2; j++) {
+          var newRocks = 3*Math.random()+2;
+          for (var j=0; j<newRocks; j++) {
             var size = rock.size/2; //20+20*Math.random();
             var angle = rock.angle + Math.PI/2*Math.random()-Math.PI/4;
             var x = rock.x + 10*Math.random()-5;
@@ -106,6 +110,7 @@ function Missile(world, angle, x, y, speed) {
           }
         }
         this.age = 1000;
+        return;
       }
     }
   }
