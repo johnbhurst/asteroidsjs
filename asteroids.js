@@ -92,8 +92,8 @@ function Missile(world, angle, x, y, speed) {
 
   this.checkHit = function() {
     for (var i=0; i<this.world.rocks.length; i++) {
-      if (distance(this, this.world.rocks[i]) < this.size + this.world.rocks[i].size) {
-        var rock = this.world.rocks[i];
+      var rock = this.world.rocks[i];
+      if (distance(this, rock) < this.size + rock.size) {
         this.world.rocks.splice(i, i);
         if (rock.size > 5) {
           for (var j=0; j<3*Math.random()+2; j++) {
