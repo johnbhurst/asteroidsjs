@@ -20,7 +20,7 @@ function Ship(world) {
   }
 
   this.fire = function() {
-    this.world.missiles.push(new Missle(this.world, this.angle, this.x, this.y, 5));
+    this.world.missiles.push(new Missile(this.world, this.angle, this.x, this.y, 5));
   }
 
   this.draw = function(ctx) {
@@ -73,7 +73,7 @@ function Rock(world, size, angle, x, y, speed) {
   }
 }
 
-function Missle(world, angle, x, y, speed) {
+function Missile(world, angle, x, y, speed) {
   this.world = world;
   this.size = 2;
   this.angle = angle;
@@ -87,6 +87,22 @@ function Missle(world, angle, x, y, speed) {
     this.x += this.vx;
     this.y += this.vy;
     this.age++;
+    for (var i=0; i<this.world.rocks.length; i++) {
+      if (distance(this, this.world.rocks[i]) < this.size + this.world.rocks[i].size) {
+        var rock = this.world.rocks[i];
+        this.world.rocks.splice(i, i);
+        if (rock.size > 5) {
+          for (var j=0; j<3*Math.random()+2; j++) {
+            var size = rock.size/2; //20+20*Math.random();
+            var angle = rock.angle + Math.PI/2*Math.random()-Math.PI/4;
+            var x = rock.x + 10*Math.random()-5;
+            var y = rock.y + 10*Math.random()-5;
+            var speed = 0.5+0.5*Math.random();
+            world.rocks.push(new Rock(world, size, angle, x, y, speed));
+          }
+        }
+      }
+    }
   }
 
   this.draw = function(ctx) {
