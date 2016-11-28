@@ -121,33 +121,28 @@ function World(width, height) {
   this.height = height;
 
   this.move = function() {
-    this.ship.move();
-    for (var i=0; i<this.rocks.length; i++) {
-      this.rocks[i].move();
-      this.fixpos(this.rocks[i]);
-    }
-    for (var i=0; i<this.missiles.length; i++) {
-      this.missiles[i].move();
-      this.fixpos(this.missiles[i]);
-    }
+    this.moveObject(this.ship);
+    this.rocks.forEach(this.moveObject);
+    this.missiles.forEach(this.moveObject);
     var i = 0;
     while ((i = this.missiles.findIndex(m => m.destroyed)) != -1) {
       this.missiles.splice(i, 1);
     }
   }
 
-  this.fixpos = function(obj) {
-    if (obj.vx > 0 && obj.x > 500) {
-      obj.x = -500;
+  this.moveObject = function(obj) {
+    obj.move();
+    if (obj.vx > 0 && obj.x > width/2) {
+      obj.x = -width/2;
     }
-    if (obj.vx < 0 && obj.x < -500) {
-      obj.x = 500;
+    if (obj.vx < 0 && obj.x < -width/2) {
+      obj.x = width/2;
     }
-    if (obj.vy > 0 && obj.y > 400) {
-      obj.y = -400;
+    if (obj.vy > 0 && obj.y > height/2) {
+      obj.y = -height/2;
     }
-    if (obj.vy < 0 && obj.y < -400) {
-      obj.y = 400;
+    if (obj.vy < 0 && obj.y < -height/2) {
+      obj.y = height/2;
     }
   }
 
