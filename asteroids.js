@@ -138,11 +138,8 @@ function World() {
       this.missiles[i].move();
       this.fixpos(this.missiles[i]);
     }
-    var destroyed = function(missile) {
-      return missile.destroyed;
-    }
     var i = 0;
-    while ((i = this.missiles.findIndex(destroyed)) != -1) {
+    while ((i = this.missiles.findIndex(m => m.destroyed)) != -1) {
       this.missiles.splice(i, 1);
     }
   }
@@ -168,6 +165,7 @@ function World() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.restore();
     this.ship.draw(ctx);
+
     for (var i=0; i<this.rocks.length; i++) {
       this.rocks[i].draw(ctx);
     }
