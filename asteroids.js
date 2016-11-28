@@ -161,9 +161,7 @@ function World(width, height) {
   }
 
   this.draw = function(ctx) {
-    ctx.save();
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.restore();
     this.drawObject(ctx, this.ship);
     this.rocks.forEach(rock => this.drawObject(ctx, rock));
     this.missiles.forEach(missile => this.drawObject(ctx, missile));
