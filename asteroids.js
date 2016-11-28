@@ -24,9 +24,6 @@ function Ship(world) {
   }
 
   this.draw = function(ctx) {
-    ctx.save();
-    ctx.translate(ctx.canvas.width/2, ctx.canvas.height/2);
-    ctx.rotate(this.angle);
     ctx.beginPath();
     ctx.strokeStyle = this.hit ? "red" : "black";
     ctx.moveTo(10, -10);
@@ -34,7 +31,6 @@ function Ship(world) {
     ctx.lineTo(10, 10);
     ctx.lineTo(10, -10);
     ctx.stroke();
-    ctx.restore();
   }
 }
 
@@ -60,13 +56,10 @@ function Rock(world, size, angle, x, y, speed) {
   }
 
   this.draw = function(ctx) {
-    ctx.save();
-    ctx.translate(ctx.canvas.width/2-this.x, ctx.canvas.height/2-this.y);
     ctx.beginPath();
     ctx.strokeStyle = "red";
     ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
     ctx.stroke();
-    ctx.restore();
   }
 }
 
@@ -113,13 +106,10 @@ function Missile(world, angle, x, y, speed) {
   }
 
   this.draw = function(ctx) {
-    ctx.save();
-    ctx.translate(ctx.canvas.width/2-this.x, ctx.canvas.height/2-this.y);
     ctx.beginPath();
     ctx.strokeStyle = "blue";
     ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
     ctx.stroke();
-    ctx.restore();
   }
 }
 
@@ -157,21 +147,23 @@ function World() {
     if (obj.vy < 0 && obj.y < -400) {
       obj.y = 400;
     }
+  }
 
+  this.drawObject = function(ctx, obj) {
+    ctx.save();
+    ctx.translate(ctx.canvas.width/2-obj.x, ctx.canvas.height/2-obj.y);
+    ctx.rotate(obj.angle);
+    obj.draw(ctx);
+    ctx.restore();
   }
 
   this.draw = function(ctx) {
     ctx.save();
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.restore();
-    this.ship.draw(ctx);
-
-    for (var i=0; i<this.rocks.length; i++) {
-      this.rocks[i].draw(ctx);
-    }
-    for (var i=0; i<this.missiles.length; i++) {
-      this.missiles[i].draw(ctx);
-    }
+    this.drawObject(ctx, this.ship);
+    this.rocks.forEach(rock => this.drawObject(ctx, rock));
+    this.missiles.forEach(missile => this.drawObject(ctx, missile));
   }
 }
 
