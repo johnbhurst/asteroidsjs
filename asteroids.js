@@ -25,9 +25,7 @@ function Ship(world) {
 
   this.draw = function(ctx) {
     ctx.save();
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.translate(ctx.canvas.width/2, ctx.canvas.height/2);
-    ctx.save();
     ctx.rotate(this.angle);
     ctx.beginPath();
     ctx.strokeStyle = this.hit ? "red" : "black";
@@ -36,7 +34,6 @@ function Ship(world) {
     ctx.lineTo(10, 10);
     ctx.lineTo(10, -10);
     ctx.stroke();
-    ctx.restore();
     ctx.restore();
   }
 }
@@ -166,6 +163,9 @@ function World() {
   }
 
   this.draw = function(ctx) {
+    ctx.save();
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.restore();
     this.ship.draw(ctx);
     for (var i=0; i<this.rocks.length; i++) {
       this.rocks[i].draw(ctx);
