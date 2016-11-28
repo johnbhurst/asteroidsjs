@@ -79,14 +79,14 @@ function Missile(world, angle, x, y, speed) {
   this.vx = speed * Math.cos(angle);
   this.vy = speed * Math.sin(angle);
   this.age = 0;
+  this.destroyed = false;
 
   this.move = function() {
-    if (this.age > 100) {
-      return;
-    }
     this.x += this.vx;
     this.y += this.vy;
-    this.age++;
+    if (this.age++ > 100) {
+      this.destroyed = true;
+    }
     this.checkHit();
   }
 
@@ -106,16 +106,13 @@ function Missile(world, angle, x, y, speed) {
             world.rocks.push(new Rock(world, size, angle, x, y, speed));
           }
         }
-        this.age = 1000;
+        this.destroyed = true;
         return;
       }
     }
   }
 
   this.draw = function(ctx) {
-    if (this.age > 100) {
-      return;
-    }
     ctx.save();
     ctx.translate(ctx.canvas.width/2-this.x, ctx.canvas.height/2-this.y);
     ctx.beginPath();
@@ -141,8 +138,12 @@ function World() {
       this.missiles[i].move();
       this.fixpos(this.missiles[i]);
     }
-    while (this.missiles.length > 0 && this.missiles[0].age >= 100) {
-      this.missiles.shift();
+    var destroyed = function(missile) {
+      return missile.destroyed;
+    }
+    var i = 0;
+    while ((i = this.missiles.findIndex(destroyed)) != -1) {
+      this.missiles.splice(i, 1);
     }
   }
 
