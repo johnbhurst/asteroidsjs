@@ -181,36 +181,22 @@ function init() {
 
     var keyDown = function(e) {
       e = e || window.event;
-      if (e.keyCode == '38') {
-        world.ship.thrust = true;
-      }
-      if (e.keyCode == '40') {
-        // down arrow
-      }
-      if (e.keyCode == '37') {
-        world.ship.turningLeft = true;
-      }
-      if (e.keyCode == '39') {
-        world.ship.turningRight = true;
+      switch (e.keyCode) {
+        case 38: world.ship.thrust = true; break;
+        case 40: /* down arrow */ break
+        case 37: world.ship.turningLeft = true; break;
+        case 39: world.ship.turningRight = true; break;
       }
     }
 
     var keyUp = function(e) {
       e = e || window.event;
-      if (e.keyCode == '38') {
-        world.ship.thrust = false;
-      }
-      if (e.keyCode == '40') {
-        // down arrow
-      }
-      if (e.keyCode == '37') {
-        world.ship.turningLeft = false;
-      }
-      if (e.keyCode == '39') {
-        world.ship.turningRight = false;
-      }
-      if (e.keyCode == '32') {
-        world.ship.fire();
+      switch (e.keyCode) {
+        case 38: world.ship.thrust = false; break;
+        case 40: /* down arrow */ break;
+        case 37: world.ship.turningLeft = false; break;
+        case 39: world.ship.turningRight = false; break;
+        case 32: world.ship.fire(); break;
       }
     }
 
