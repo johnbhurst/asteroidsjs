@@ -13,13 +13,26 @@ function Ship(world) {
   this.turningLeft = false;
   this.turningRight = false;
   this.hit = false;
+  this.thrustFactor = 0.1;
+  this.slowFactor = this.thrustFactor / 5;
+  this.maxSpeed = 5;
 
   this.move = function() {
     this.angle += this.turningLeft ? -Math.PI/30 : 0 ;
     this.angle += this.turningRight ? Math.PI/30 : 0;
+    var tAngle = Math.atan2(this.vy, this.vx);
     if (this.thrust) {
-      this.vx += 0.1 * Math.cos(this.angle);
-      this.vy += 0.1 * Math.sin(this.angle);
+      this.vx += this.thrustFactor * Math.cos(this.angle);
+      this.vy += this.thrustFactor * Math.sin(this.angle);
+    }
+    else {
+      this.vx -= this.slowFactor * Math.cos(tAngle);
+      this.vy -= this.slowFactor * Math.sin(tAngle);
+    }
+    if (Math.hypot(this.vx, this.vy) > this.maxSpeed) {
+      var factor = this.maxSpeed / Math.hypot(this.vx, this.vy);
+      this.vx *= factor;
+      this.vy *= factor;
     }
     this.x += this.vx;
     this.y += this.vy;
@@ -41,7 +54,7 @@ function Ship(world) {
 }
 
 function distance(obj1, obj2) {
-  return Math.sqrt((obj1.x-obj2.x)*(obj1.x-obj2.x) + (obj1.y-obj2.y)*(obj1.y-obj2.y));
+  return Math.hypot(obj1.x-obj2.x, obj1.y-obj2.y);
 }
 
 function Rock(world, size, angle, x, y, speed) {

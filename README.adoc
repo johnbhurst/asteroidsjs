@@ -17,8 +17,6 @@ Some things we could do to make this game better or more complete:
 * Better graphics for missiles?
 * Rock destruction animation?
 * Size/speed of rocks more challenging, should encourage player to use thrust.
-* Fine-tune thrust speed.
-* Automatically slow down if thrust off?
 * Game Over when ship crashes.
 * Ability to start New Game (without page reload).
 * Scoring?
