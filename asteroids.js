@@ -92,6 +92,7 @@ function Missile(world, angle, x, y, speed) {
   this.vy = speed * Math.sin(angle);
   this.age = 0;
   this.destroyed = false;
+  this.minSize = 10;
 
   this.move = function() {
     this.x += this.vx;
@@ -107,14 +108,14 @@ function Missile(world, angle, x, y, speed) {
       var rock = this.world.rocks[i];
       if (distance(this, rock) < this.size + rock.size) {
         this.world.rocks.splice(i, 1);
-        if (rock.size > 10) {
-          var newRocks = 3*Math.random()+2;
-          for (var j=0; j<newRocks; j++) {
-            var size = rock.size/2; //20+20*Math.random();
-            var angle = rock.angle + Math.PI/2*Math.random()-Math.PI/4;
-            var x = rock.x + 10*Math.random()-5;
-            var y = rock.y + 10*Math.random()-5;
-            var speed = 0.5+0.5*Math.random();
+        var newRocks = 3*Math.random()+2;
+        for (var j=0; j<newRocks; j++) {
+          var size = rock.size/(2+Math.random(3));
+          var angle = rock.angle + Math.PI/2*Math.random()-Math.PI/4;
+          var x = rock.x + 10*Math.random()-5;
+          var y = rock.y + 10*Math.random()-5;
+          var speed = 0.5+0.5*Math.random();
+          if (size > this.minSize) {
             world.rocks.push(new Rock(world, size, angle, x, y, speed));
           }
         }
@@ -136,7 +137,7 @@ function World(width, height) {
   this.ship = new Ship(this);
   this.rocks = [];
   for (var i=0; i<10; i++) {
-    var size = 20+20*Math.random();
+    var size = 30+30*Math.random();
     var angle = 2*Math.PI*Math.random();
     var x = 1000*Math.random()-500;
     var y = 800*Math.random()-400;
