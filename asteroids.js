@@ -120,16 +120,6 @@ function World(width, height) {
   this.width = width;
   this.height = height;
 
-  this.move = function() {
-    this.moveObject(this.ship);
-    this.rocks.forEach(this.moveObject);
-    this.missiles.forEach(this.moveObject);
-    var i = 0;
-    while ((i = this.missiles.findIndex(m => m.destroyed)) != -1) {
-      this.missiles.splice(i, 1);
-    }
-  }
-
   this.moveObject = function(obj) {
     obj.move();
     if (obj.vx > 0 && obj.x > width/2) {
@@ -143,6 +133,16 @@ function World(width, height) {
     }
     if (obj.vy < 0 && obj.y < -height/2) {
       obj.y = height/2;
+    }
+  }
+
+  this.move = function() {
+    this.moveObject(this.ship);
+    this.rocks.forEach(this.moveObject);
+    this.missiles.forEach(this.moveObject);
+    var i = 0;
+    while ((i = this.missiles.findIndex(m => m.destroyed)) != -1) {
+      this.missiles.splice(i, 1);
     }
   }
 
