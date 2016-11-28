@@ -120,11 +120,17 @@ function Missile(world, angle, x, y, speed) {
 }
 
 function World(width, height) {
-  this.ship = null;
+  this.ship = new Ship(this);
   this.rocks = [];
+  for (var i=0; i<10; i++) {
+    var size = 20+20*Math.random();
+    var angle = 2*Math.PI*Math.random();
+    var x = 1000*Math.random()-500;
+    var y = 800*Math.random()-400;
+    var speed = 0.5+0.5*Math.random();
+    this.rocks.push(new Rock(this, size, angle, x, y, speed));
+  }
   this.missiles = [];
-  this.width = width;
-  this.height = height;
 
   this.moveObject = function(obj) {
     obj.move();
@@ -173,15 +179,6 @@ function init() {
   if (canvas.getContext) {
     var ctx = canvas.getContext("2d");
     var world = new World(ctx.canvas.width, ctx.canvas.height);
-    world.ship = new Ship(world);
-    for (var i=0; i<10; i++) {
-      var size = 20+20*Math.random();
-      var angle = 2*Math.PI*Math.random();
-      var x = 1000*Math.random()-500;
-      var y = 800*Math.random()-400;
-      var speed = 0.5+0.5*Math.random();
-      world.rocks.push(new Rock(world, size, angle, x, y, speed));
-    }
 
     var keyDown = function(e) {
       e = e || window.event;
