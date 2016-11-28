@@ -113,10 +113,12 @@ function Missile(world, angle, x, y, speed) {
   }
 }
 
-function World() {
+function World(width, height) {
   this.ship = null;
   this.rocks = [];
   this.missiles = [];
+  this.width = width;
+  this.height = height;
 
   this.move = function() {
     this.ship.move();
@@ -167,65 +169,64 @@ function World() {
   }
 }
 
-var world;
-
-function keyDown(e) {
-  e = e || window.event;
-  if (e.keyCode == '38') {
-    world.ship.thrust = true;
-  }
-  if (e.keyCode == '40') {
-    // down arrow
-  }
-  if (e.keyCode == '37') {
-    world.ship.turningLeft = true;
-  }
-  if (e.keyCode == '39') {
-    world.ship.turningRight = true;
-  }
-}
-
-function keyUp(e) {
-  e = e || window.event;
-  if (e.keyCode == '38') {
-    world.ship.thrust = false;
-  }
-  if (e.keyCode == '40') {
-    // down arrow
-  }
-  if (e.keyCode == '37') {
-    world.ship.turningLeft = false;
-  }
-  if (e.keyCode == '39') {
-    world.ship.turningRight = false;
-  }
-  if (e.keyCode == '32') {
-    world.ship.fire();
-  }
-}
-
 function init() {
-  document.onkeydown = keyDown;
-  document.onkeyup = keyUp;
-  world = new World();
-  world.ship = new Ship(world);
-  for (var i=0; i<10; i++) {
-    var size = 20+20*Math.random();
-    var angle = 2*Math.PI*Math.random();
-    var x = 1000*Math.random()-500;
-    var y = 800*Math.random()-400;
-    var speed = 0.5+0.5*Math.random();
-    world.rocks.push(new Rock(world, size, angle, x, y, speed));
-  }
-  draw();
-}
-
-function draw() {
-  world.move();
   var canvas = document.getElementById("canvas");
   if (canvas.getContext) {
     var ctx = canvas.getContext("2d");
-    world.draw(ctx);
+    var world = new World(ctx.canvas.width, ctx.canvas.height);
+    world.ship = new Ship(world);
+    for (var i=0; i<10; i++) {
+      var size = 20+20*Math.random();
+      var angle = 2*Math.PI*Math.random();
+      var x = 1000*Math.random()-500;
+      var y = 800*Math.random()-400;
+      var speed = 0.5+0.5*Math.random();
+      world.rocks.push(new Rock(world, size, angle, x, y, speed));
+    }
+
+    var keyDown = function(e) {
+      e = e || window.event;
+      if (e.keyCode == '38') {
+        world.ship.thrust = true;
+      }
+      if (e.keyCode == '40') {
+        // down arrow
+      }
+      if (e.keyCode == '37') {
+        world.ship.turningLeft = true;
+      }
+      if (e.keyCode == '39') {
+        world.ship.turningRight = true;
+      }
+    }
+
+    var keyUp = function(e) {
+      e = e || window.event;
+      if (e.keyCode == '38') {
+        world.ship.thrust = false;
+      }
+      if (e.keyCode == '40') {
+        // down arrow
+      }
+      if (e.keyCode == '37') {
+        world.ship.turningLeft = false;
+      }
+      if (e.keyCode == '39') {
+        world.ship.turningRight = false;
+      }
+      if (e.keyCode == '32') {
+        world.ship.fire();
+      }
+    }
+
+    var draw = function() {
+      world.move();
+      world.draw(ctx);
+      window.requestAnimationFrame(draw);
+    }
+
+    document.onkeydown = keyDown;
+    document.onkeyup = keyUp;
+    draw();
   }
-  window.requestAnimationFrame(draw);
 }
