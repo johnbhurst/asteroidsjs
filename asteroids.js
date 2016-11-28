@@ -17,6 +17,12 @@ function Ship(world) {
   this.move = function() {
     this.angle += this.turningLeft ? -Math.PI/30 : 0 ;
     this.angle += this.turningRight ? Math.PI/30 : 0;
+    if (this.thrust) {
+      this.vx += 0.1 * Math.cos(this.angle);
+      this.vy += 0.1 * Math.sin(this.angle);
+    }
+    this.x += this.vx;
+    this.y += this.vy;
   }
 
   this.fire = function() {
