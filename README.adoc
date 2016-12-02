@@ -4,14 +4,14 @@ This is a simple JavaScript game based on the arcade game from the 1970s.
 
 I made it to practice JavaScript programming with my son.
 
-This game uses vanilla ECMASCript 6 features, including the HTML5 2D canvas and window.requestAnimationFrame().
+This game uses vanilla ECMAScript 6 features, including the HTML5 2D canvas and window.requestAnimationFrame().
 
 == TODO
 
 Some things we could do to make this game better or more complete:
 
 * Better colors! Black background.
-* Ship destruction animatioh.
+* Ship destruction animation.
 * Better graphics for ship?
 * Better graphics for rocks?
 * Better graphics for missiles?
@@ -21,4 +21,3 @@ Some things we could do to make this game better or more complete:
 * Ability to start New Game (without page reload).
 * Scoring?
 * Poor performance when lots of rocks? (Less rocks, bigger?)
-
