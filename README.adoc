@@ -11,6 +11,7 @@ This game uses vanilla ECMAScript 6 features, including the HTML5 2D canvas and 
 Some things we could do to make this game better or more complete:
 
 * Better colors! Black background.
+* Improve animation using elapsed time rather than frames to compute movement.
 * Ship destruction animation.
 * Better graphics for ship?
 * Better graphics for rocks?
