@@ -2,6 +2,9 @@
 // John Hurst (john.b.hurst@gmail.com)
 // 2016-11-26
 
+// performance.now()
+// new Date().getTime()
+
 function Ship(world) {
   this.world = world;
   this.angle = Math.PI/2;
@@ -44,7 +47,7 @@ function Ship(world) {
 
   this.draw = function(ctx) {
     ctx.beginPath();
-    ctx.strokeStyle = this.hit ? "red" : "black";
+    ctx.strokeStyle = this.hit ? "red" : "lightblue";
     ctx.moveTo(10, -10);
     ctx.lineTo(-10, 0);
     ctx.lineTo(10, 10);
@@ -76,7 +79,7 @@ function Rock(world, size, angle, x, y, speed) {
 
   this.draw = function(ctx) {
     ctx.beginPath();
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = "lightgreen";
     ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
     ctx.stroke();
   }
@@ -127,7 +130,7 @@ function Missile(world, angle, x, y, speed) {
 
   this.draw = function(ctx) {
     ctx.beginPath();
-    ctx.strokeStyle = "blue";
+    ctx.strokeStyle = "lightblue";
     ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
     ctx.stroke();
   }
