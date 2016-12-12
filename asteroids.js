@@ -148,8 +148,8 @@ function Missile(world, angle, x, y, speed) {
 function World(width, height) {
   this.ship = new Ship(this);
   this.rocks = [];
-  for (var i=0; i<10; i++) {
-    var size = 30+30*Math.random();
+  for (var i=0; i<20; i++) {
+    var size = 50+30*Math.random();
     var angle = 2*Math.PI*Math.random();
     var x = 1000*Math.random()-500;
     var y = 800*Math.random()-400;
