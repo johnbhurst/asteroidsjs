@@ -62,14 +62,22 @@ function Rock(world, size, angle, x, y, speed) {
   this.world = world;
   this.size = size;
   this.angle = angle;
+  this.pangle = Math.random() * 2 * Math.PI;
+  this.pspin = 2/50 * Math.random() - 1/50;
   this.x = x;
   this.y = y;
   this.vx = speed * Math.cos(angle);
   this.vy = speed * Math.sin(angle);
 
+  this.sizes = [];
+  for (var i=0; i<20; i++) {
+    this.sizes.push(size + Math.random() * 10 - 5);
+  }
+
   this.move = function() {
     this.x += this.vx;
     this.y += this.vy;
+    this.pangle += this.pspin;
     if (distance(this, this.world.ship) < this.size) {
       this.world.ship.hit = true;
     }
@@ -77,7 +85,14 @@ function Rock(world, size, angle, x, y, speed) {
 
   this.draw = function(ctx) {
     ctx.strokeStyle = "lightgreen";
-    ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
+    ctx.moveTo(this.sizes[0] * Math.cos(this.pangle), this.sizes[0] * Math.sin(this.pangle));
+    for (var i=0; i<20; i++) {
+      var a = this.pangle + i * 2 * Math.PI / 20;
+      var px = this.sizes[i] * Math.cos(a);
+      var py = this.sizes[i] * Math.sin(a);
+      ctx.lineTo(px, py);
+    }
+    ctx.lineTo(this.sizes[0] * Math.cos(this.pangle), this.sizes[0] * Math.sin(this.pangle));
   }
 }
 
