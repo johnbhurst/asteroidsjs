@@ -46,13 +46,11 @@ function Ship(world) {
   }
 
   this.draw = function(ctx) {
-    ctx.beginPath();
     ctx.strokeStyle = this.hit ? "red" : "lightblue";
     ctx.moveTo(10, -10);
     ctx.lineTo(-10, 0);
     ctx.lineTo(10, 10);
     ctx.lineTo(10, -10);
-    ctx.stroke();
   }
 }
 
@@ -78,10 +76,8 @@ function Rock(world, size, angle, x, y, speed) {
   }
 
   this.draw = function(ctx) {
-    ctx.beginPath();
     ctx.strokeStyle = "lightgreen";
     ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
-    ctx.stroke();
   }
 }
 
@@ -129,10 +125,8 @@ function Missile(world, angle, x, y, speed) {
   }
 
   this.draw = function(ctx) {
-    ctx.beginPath();
     ctx.strokeStyle = "lightblue";
     ctx.ellipse(0, 0, this.size, this.size, 0, 0, 2*Math.PI, false);
-    ctx.stroke();
   }
 }
 
@@ -179,7 +173,9 @@ function World(width, height) {
     ctx.save();
     ctx.translate(ctx.canvas.width/2-obj.x, ctx.canvas.height/2-obj.y);
     ctx.rotate(obj.angle);
+    ctx.beginPath();
     obj.draw(ctx);
+    ctx.stroke();
     ctx.restore();
   }
 
